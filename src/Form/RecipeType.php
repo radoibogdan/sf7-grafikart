@@ -19,6 +19,11 @@ use Symfony\Component\Validator\Constraints\Sequentially;
 
 class RecipeType extends AbstractType
 {
+
+    public function __construct(private FormListenerFactory $formListenerFactory)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -44,33 +49,25 @@ class RecipeType extends AbstractType
             ->add('save', SubmitType::class,[
                 'label' => 'Enregistrer',
             ])
-            ->addEventListener(FormEvents::PRE_SUBMIT, $this->autoSlug(...))
-            ->addEventListener(FormEvents::POST_SUBMIT, $this->attachTimestamps(...))
+            // Var 1 : Create listener with method inside
+//            ->addEventListener(FormEvents::PRE_SUBMIT, $this->autoSlug(...))
+            // Var 2 : Create service with method inside service
+            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->autoSlug('title'))
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->formListenerFactory->timestamps())
         ;
     }
 
-    public function autoSlug(PreSubmitEvent $event): void
-    {
-        $data = $event->getData();
-
-        if (empty($data['slug'])) {
-            $slugger = new AsciiSlugger();
-            $data['slug'] = strtolower($slugger->slug($data['title']));
-        }
-        $event->setData($data);
-    }
-
-    public function attachTimestamps(PostSubmitEvent $event): void
-    {
-        $data = $event->getData();
-
-        if (!$data instanceof Recipe)
-            return;
-
-        $data->setUpdatedAt(new \DateTimeImmutable());
-        if (!$data->getId())
-            $data->setCreatedAt(new \DateTimeImmutable());
-    }
+      // Var 1 : Create listener with method inside
+//    public function autoSlug(PreSubmitEvent $event): void
+//    {
+//        $data = $event->getData();
+//
+//        if (empty($data['slug'])) {
+//            $slugger = new AsciiSlugger();
+//            $data['slug'] = strtolower($slugger->slug($data['title']));
+//        }
+//        $event->setData($data);
+//    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
