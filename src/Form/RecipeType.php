@@ -6,12 +6,14 @@ use App\Entity\Category;
 use App\Entity\Recipe;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Sequentially;
@@ -34,10 +36,11 @@ class RecipeType extends AbstractType
             ->add('slug', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Sequentially([
-                        new Length(min: 10, minMessage: 'Trop court.'),
-                        new Regex(pattern: '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: 'Format invalide.'),
-                    ])
+                    // Si la 1ere contrainte est Invalide il s'arrête.
+//                    new Sequentially([
+//                        new Length(min: 10, minMessage: 'Trop court.'),
+//                        new Regex(pattern: '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: 'Format invalide.'),
+//                    ])
                 ]
             ])
             ->add('category', EntityType::class, [
@@ -48,6 +51,9 @@ class RecipeType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'empty_data' => '',
+            ])
+            ->add('thumbnailFile', FileType::class, [
+
             ])
             ->add('duration')
             ->add('save', SubmitType::class,[

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 
 #[Route('/admin/recettes', name: 'admin.recipe.')]
@@ -34,6 +35,7 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em->persist($recipe);
             $em->flush();
             $this->addFlash('success', 'La recette a bien été créée.');
@@ -45,8 +47,11 @@ class RecipeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'edit', requirements: ['id' => Requirement::DIGITS], methods: ['GET', 'POST'])]
-    public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em): Response
+    public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em, UploaderHelper $uploaderHelper): Response
     {
+        // Récupérer le chemin du ficher (/images/recipes.....)
+//        dd($uploaderHelper->asset($recipe, 'thumbnailFile'));
+
         $form = $this->createForm(RecipeType::class, $recipe);
 
         $form->handleRequest($request);
