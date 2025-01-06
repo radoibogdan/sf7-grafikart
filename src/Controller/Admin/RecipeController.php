@@ -20,6 +20,7 @@ class RecipeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, RecipeRepository $recipeRepository, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $recipes = $recipeRepository->findWithDurationLowerThan(40);
 
         return $this->render('admin/recipe/index.html.twig', [
