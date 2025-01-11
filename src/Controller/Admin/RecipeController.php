@@ -22,10 +22,15 @@ class RecipeController extends AbstractController
     public function index(Request $request, RecipeRepository $recipeRepository, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $recipes = $recipeRepository->findWithDurationLowerThan(40);
+        $limit = 2;
+        $page = $request->query->getInt('page', 1);
+        $recipes = $recipeRepository->paginateRecipes($page, $limit);
+        $maxPages = ceil($recipes->count() / $limit);
 
         return $this->render('admin/recipe/index.html.twig', [
             'recipes' => $recipes,
+            'maxPages' => $maxPages,
+            'currentPage' => $page,
         ]);
     }
 

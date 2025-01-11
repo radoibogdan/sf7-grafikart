@@ -36,4 +36,13 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="d-flex">
+        {% if currentPage > 1 %}
+            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage - 1}) }}">Page précédente</a>
+        {% endif %}
+        {% if currentPage < maxPages %}
+            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage + 1}) }}">Page suivante</a>
+        {% endif %}
+    </div>
 {% endblock %}
