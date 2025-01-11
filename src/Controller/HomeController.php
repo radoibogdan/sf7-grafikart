@@ -17,9 +17,9 @@ class HomeController extends AbstractController
     {
 //        $user = new User();
 //        $user
-//            ->setUsername('John Doe2')
-//            ->setEmail('john2@doe.com')
-//            ->setPassword($hasher->hashPassword($user, '0000'))
+//            ->setUsername('admin')
+//            ->setEmail('admin@gmail.com')
+//            ->setPassword($hasher->hashPassword($user, 'password'))
 //            ->setRoles([]);
 //        ;
 //        $entityManager->persist($user);
