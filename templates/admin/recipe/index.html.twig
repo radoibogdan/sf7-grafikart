@@ -9,7 +9,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Titre</th>
+            <th>{{ knp_pagination_sortable(recipes, 'ID', 'r.id') }}</th>
+            <th>{{ knp_pagination_sortable(recipes, 'Titre', 'r.title') }}</th>
             <th>Catégorie</th>
             <th style="width: 200px;">Actions</th>
         </tr>
@@ -17,6 +18,7 @@
         <tbody>
         {% for recipe in recipes %}
             <tr>
+                <td>{{ recipe.id }}</td>
                 <td>
                     <a href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">{{ recipe.title }}</a>
                 </td>
@@ -37,12 +39,14 @@
         </tbody>
     </table>
 
-    <div class="d-flex">
-        {% if currentPage > 1 %}
-            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage - 1}) }}">Page précédente</a>
-        {% endif %}
-        {% if currentPage < maxPages %}
-            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage + 1}) }}">Page suivante</a>
-        {% endif %}
-    </div>
+{#    <div class="d-flex">#}
+{#        {% if currentPage > 1 %}#}
+{#            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage - 1}) }}">Page précédente</a>#}
+{#        {% endif %}#}
+{#        {% if currentPage < maxPages %}#}
+{#            <a class="btn btn-secondary" href="{{ path('admin.recipe.index', {page: currentPage + 1}) }}">Page suivante</a>#}
+{#        {% endif %}#}
+{#    </div>#}
+
+    {{ knp_pagination_render(recipes) }}
 {% endblock %}

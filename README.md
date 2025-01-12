@@ -7,7 +7,10 @@ composer req vich/uploader-bundle
 composer require symfony/asset-mapper  
 composer require symfonycasts/verify-email-bundle  
 php bin/console asset:install --symlink web  
+# Paginator : https://github.com/KnpLabs/KnpPaginatorBundle
+composer require knplabs/knp-paginator-bundle
 ```
+
 
 ## RUN Project
 ```bash
@@ -33,4 +36,7 @@ php bin/console make:registration-form
 ## Debug
 ```bash
 php bin/console debug:router
+php bin/console debug:autowiring Paginator
+php bin/console debug:twig
+php bin/console debug:config
 ```
