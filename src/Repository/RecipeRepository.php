@@ -27,7 +27,7 @@ class RecipeRepository extends ServiceEntityRepository
                 ->leftJoin('r.category', 'c')
                 ->select('r', 'c'),
             $page,
-            20,
+            2,
             [
                 'distinct' => false,
                 'sortFieldAllowList' => ['r.id', 'r.title']
