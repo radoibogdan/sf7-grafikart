@@ -10,6 +10,15 @@ php bin/console asset:install --symlink web
 # Paginator : https://github.com/KnpLabs/KnpPaginatorBundle
 composer require knplabs/knp-paginator-bundle
 ```
+# Asset Mapper
+``` bash
+php bin/console asset-map:compile
+```
+Import 3rd party library   
+https://www.npmjs.com/package/canvas-confetti
+```bash
+php bin/console importmap:require canvas-confetti
+```
 
 
 ## RUN Project

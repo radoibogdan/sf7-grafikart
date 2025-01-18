@@ -27,6 +27,10 @@
         </nav>
         <div class="container my-4">
             {% include 'partials/flash.html.twig' %}
+
+            {# Utiliser image avec AssetMapper #}
+            <img src="{{ asset('images_tuto/alien-profile.png') }}" alt="Image" width="200">
+
             {% block body %}{% endblock %}
         </div>
     </body>
