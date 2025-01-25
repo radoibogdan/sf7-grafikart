@@ -28,17 +28,17 @@ class Recipe
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 5)]
     #[BanWord]
-    #[Groups(['recipe.index'])]
+    #[Groups(['recipe.index', 'recipe.create'])]
     private string $title = '';
 
     #[Assert\Length(min: 5)]
     #[Assert\Regex(pattern: '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: 'Format Invalide')]
     #[ORM\Column(length: 255)]
-    #[Groups(['recipe.index'])]
+    #[Groups(['recipe.index', 'recipe.create'])]
     private string $slug = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['recipe.show'])]
+    #[Groups(['recipe.show', 'recipe.create'])]
     private string $content = '';
 
     #[ORM\Column]
@@ -50,7 +50,7 @@ class Recipe
     #[ORM\Column(nullable: true)]
     #[Assert\Positive]
     #[Assert\LessThan(value: 1440)]
-    #[Groups(['recipe.index'])]
+    #[Groups(['recipe.index', 'recipe.create'])]
     private ?int $duration = null;
 
     #[ORM\ManyToOne(
