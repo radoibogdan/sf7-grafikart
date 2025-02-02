@@ -34,15 +34,19 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     {
         $username = $request->getPayload()->getString('username');
 
-        // Utilise pour remplir le formulaire depuis la session
+        // Sauvegarde en session le user tapé à la maine pour le reafficher dans le formulaire de connexion si le mdp est incorrect
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
 
         return new Passport(
-            // Permet de récupérer un user avec un callable personnalisé (user email or user name)
+            // Tampon 1 : Récupérer un user depuis la BDD en utilisant le $username grace à un callable personnalisé (user email or user name)
             new UserBadge($username, fn(string $identifier) => $this->userRepository->findUserByEmailOrUsername($identifier)),
+            // Tampon 2 : Va régarder si le mdp sauvegardé pour le user trouvé au niveau du TAMPON 1 correspond au "mdp" tappé dans le formulaire de connexion
             new PasswordCredentials($request->getPayload()->getString('password')),
+            // Les tampons optionels :
             [
+                # Tampon CSRF : Dde au système de valider le token csrf récupéré depuis le formulaire
                 new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
+                # Tampon Cookie
                 new RememberMeBadge(),
             ]
         );

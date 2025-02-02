@@ -15,7 +15,6 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function me(): Response
     {
-        dd($this->getUser());
         return $this->json(['message' => 'Bonjour']);
     }
 }

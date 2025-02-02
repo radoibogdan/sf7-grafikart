@@ -22,7 +22,7 @@ security:
             provider: api_user_provider
             custom_authenticator: App\Security\APIAuthenticator
             stateless: true    # ne pas charge le user dans le session
-            lazy: true          # ch    arger le user que s'il y a besoin
+            lazy: true          # charger le user que s'il y a besoin
         main:
             lazy: true
             provider: app_user_provider
