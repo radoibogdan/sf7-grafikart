@@ -42,6 +42,20 @@ php bin/console make:auth
 php bin/console make:registration-form  
 ```
 
+## Fixtures
+```bash
+# Install dependency
+composer req --dev orm-fixtures
+composer req --dev fakerphp/faker
+composer req --dev jzonta/faker-restaurant
+
+# Make fixtures
+php bin/console make:fixtures
+# Load fixtures
+php bin/console doctrine:fixtures:load
+```
+
+
 ## Debug
 ```bash
 php bin/console debug:router
