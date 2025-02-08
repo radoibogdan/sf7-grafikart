@@ -40,6 +40,8 @@ php bin/console make:migration --formatted
 php bin/console make:user  
 php bin/console make:auth  
 php bin/console make:registration-form  
+php bin/console make:voter  
+
 ```
 
 ## Fixtures
