@@ -3,18 +3,18 @@
 namespace App\Controller;
 
 use App\DTO\ContactDTO;
+use App\Event\ContactRequestEvent;
 use App\Form\ContactType;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'contact')]
-    public function contact(Request $request, MailerInterface $mailer): Response
+    public function contact(Request $request, EventDispatcherInterface $dispatcher): Response
     {
         $contact = new ContactDTO();
         $contact->content = 'super';
@@ -25,18 +25,8 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                /*
-                    Use Inky for nice templates
-                    https://symfony.com/doc/current/mailer.html#inky-email-templating-language
-                */
-                $email = (new TemplatedEmail())
-                    ->from($contact->email)
-                    ->to($contact->service)
-                    ->subject('Demande de contact')
-                    ->htmlTemplate('emails/contact.html.twig')
-                    ->context(['contact' => $contact]);
-                $mailer->send($email);
-                $this->addFlash('success', 'Mail sent.');
+                $dispatcher->dispatch(new ContactRequestEvent($contact));
+                $this->addFlash('success', 'Message envoyé.');
                 return $this->redirectToRoute('contact');
             } catch (\Exception $exception) {
                 $this->addFlash('danger', "Impossible d'envoyer une demande de contact.");

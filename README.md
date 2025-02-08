@@ -42,6 +42,10 @@ php bin/console make:auth
 php bin/console make:registration-form  
 php bin/console make:voter  
 
+
+# Listener
+php bin/console make:listener DogToCatListener
+php bin/console make:subscriber MailingSubscriber
 ```
 
 ## Fixtures
