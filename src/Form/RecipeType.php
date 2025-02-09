@@ -53,7 +53,7 @@ class RecipeType extends AbstractType
                 'empty_data' => '',
             ])
             ->add('thumbnailFile', FileType::class, [
-
+                'required' => false,
             ])
             ->add('duration')
             ->add('save', SubmitType::class,[

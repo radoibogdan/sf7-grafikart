@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\UX\Turbo\TurboBundle;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 #[Route('/admin/recettes', name: 'admin.recipe.')]
@@ -79,11 +80,25 @@ class RecipeController extends AbstractController
 
     #[IsGranted(RecipeVoter::EDIT, subject: 'recipe')]
     #[Route('/{id}', name: 'delete', requirements: ['id' => Requirement::DIGITS], methods: ['DELETE'])]
-    public function remove(Recipe $recipe, EntityManagerInterface $em): Response
+    public function remove(Request $request, Recipe $recipe, EntityManagerInterface $em): Response
     {
+        $recipeId = $recipe->getId();
+        $message = 'La recette a bien été supprimée.';
         $em->remove($recipe);
         $em->flush();
-        $this->addFlash('success', 'La recette a bien été supprimée.');
+
+        # Turbo
+        # Permet de faire la suppression d'une ligne dans la page du listing sans recharger la page
+        # et d'afficher un message de confirmation
+        if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            return $this->render('admin/recipe/delete.html.twig', [
+                'recipeId' => $recipeId,
+                'message' => $message
+            ]);
+        }
+
+        $this->addFlash('success', $message);
         return $this->redirectToRoute('admin.recipe.index');
     }
 }

@@ -61,6 +61,15 @@ php bin/console make:fixtures
 php bin/console doctrine:fixtures:load
 ```
 
+## PACKAGE TURBO
+Pages will use Ajax to mimic Single Page Applications
+Links:
+[Symfony Turbo](1)
+[Turbo official documentation](2)
+
+```bash
+composer require symfony/ux-turbo
+```
 
 ## Debug
 ```bash
@@ -69,3 +78,6 @@ php bin/console debug:autowiring Paginator
 php bin/console debug:twig
 php bin/console debug:config
 ```
+
+[1] : https://symfony.com/bundles/ux-turbo/current/index.html
+[2] : https://turbo.hotwired.dev/
