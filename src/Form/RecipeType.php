@@ -43,11 +43,7 @@ class RecipeType extends AbstractType
 //                    ])
                 ]
             ])
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-                'expanded' => true, // affiche radio (au lieu d'un select)
-            ])
+            ->add('category', CategoryAutocompleteField::class)
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'empty_data' => '',

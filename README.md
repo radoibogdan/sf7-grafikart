@@ -71,6 +71,15 @@ Links:
 composer require symfony/ux-turbo
 ```
 
+## PACKAGE UX-Autocomplete
+Activate bootstrap autoimport in controllers.json
+[Symfony UX Autocomplete](3)
+```bash
+composer require symfony/ux-autocomple
+php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
+php bin/console make:autocomplete-field
+```
+
 ## Debug
 ```bash
 php bin/console debug:router
@@ -81,3 +90,4 @@ php bin/console debug:config
 
 [1] : https://symfony.com/bundles/ux-turbo/current/index.html
 [2] : https://turbo.hotwired.dev/
+[3] : https://symfony.com/bundles/ux-autocomplete/current/index.html
