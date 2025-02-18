@@ -60,7 +60,7 @@ class RecipeType extends AbstractType
                 'allow_delete' => true,
                 'entry_options' => ['label' => false],
                 'attr' => [
-                    'data-controller' => 'form-collection',
+//                    'data-controller' => 'form-collection', // rajouté automatiquement dans le extend_bootstrap.html.twig
                     'data-form-collection-add-label-value' => 'Ajouter un ingrédient',
                     'data-form-collection-delete-label-value' => 'Supprimer un ingrédient',
                     'class' => 'd-flex',
