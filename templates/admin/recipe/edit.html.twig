@@ -8,11 +8,13 @@
     {# Preview Image #}
     <img src="{{ vich_uploader_asset(recipe, 'thumbnailFile') }}" alt="">
 
-    <turbo-frame id="recipe_{{ recipe.id }}">
-        {{ form(form, {
-            'action' : path('admin.recipe.edit', {id: recipe.id})
-        }) }}
-    </turbo-frame>
+    {{ form(form) }}
+
+{#    <turbo-frame id="recipe_{{ recipe.id }}">#}
+{#        {{ form(form, {#}
+{#            'action' : path('admin.recipe.edit', {id: recipe.id})#}
+{#        }) }}#}
+{#    </turbo-frame>#}
 
    {# {{ form_start(form) }}
         <div class="d-flex">

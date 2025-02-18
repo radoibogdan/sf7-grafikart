@@ -9,7 +9,7 @@ import './bootstrap.js';
 // Fait des confetti au click sur la page
 import canvasCofetti from 'canvas-confetti'
 document.body.addEventListener('click',() => {
-    canvasCofetti();
+    // canvasCofetti();
 })
 
 // Import css
