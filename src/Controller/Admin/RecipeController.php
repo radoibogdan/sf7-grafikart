@@ -4,13 +4,16 @@ namespace App\Controller\Admin;
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
+use App\Message\RecipePDFMessage;
 use App\Repository\RecipeRepository;
 use App\Security\Voter\RecipeVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -31,6 +34,12 @@ class RecipeController extends AbstractController
         return $this->render('admin/recipe/index.html.twig', [
             'recipes' => $recipes,
         ]);
+    }
+
+    #[Route('/show', name: 'show')]
+    public function show(): Response
+    {
+        return $this->render('admin/recipe/show.html.twig');
     }
 
     #[IsGranted(RecipeVoter::CREATE)]
@@ -55,7 +64,7 @@ class RecipeController extends AbstractController
 
     #[IsGranted(RecipeVoter::EDIT, subject: 'recipe')]
     #[Route('/{id}', name: 'edit', requirements: ['id' => Requirement::DIGITS], methods: ['GET', 'POST'])]
-    public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em, UploaderHelper $uploaderHelper): Response
+    public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em, UploaderHelper $uploaderHelper, MessageBusInterface $messageBus): Response
     {
         // Récupérer le chemin du ficher (/images/recipes.....)
 //        dd($uploaderHelper->asset($recipe, 'thumbnailFile'));
@@ -66,6 +75,7 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $messageBus->dispatch(new RecipePDFMessage($recipe->getId()));
             $this->addFlash('success', 'La recette a bien été modifié.');
             return $this->redirectToRoute('admin.recipe.index');
         }

@@ -80,6 +80,22 @@ php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
 php bin/console make:autocomplete-field
 ```
 
+## Tâche asynchrone avec Messenger
+Installing [gotenberg](4).  A pdf creater running on Docker.  
+Open Docker and run this command.
+```bash
+docker run --rm -p "3000:3000" gotenberg/gotenberg:8
+```
+Messenger commands
+```bash
+php bin/console messenger:consume async -vv
+php bin/console make:message RecipePDFMessage => [async]
+# show failed messages
+php bin/console messenger:failed:show
+# retry to send fail messages
+php bin/console messenger:failed:retry
+```
+
 ## Debug
 ```bash
 php bin/console debug:router
@@ -91,3 +107,4 @@ php bin/console debug:config
 [1] : https://symfony.com/bundles/ux-turbo/current/index.html
 [2] : https://turbo.hotwired.dev/
 [3] : https://symfony.com/bundles/ux-autocomplete/current/index.html
+[4] : https://gotenberg.dev/docs/getting-started/installation

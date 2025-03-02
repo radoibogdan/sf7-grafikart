@@ -30,7 +30,7 @@ class MailingSubscriber implements EventSubscriberInterface
             ->subject('Demande de contact')
             ->htmlTemplate('emails/contact.html.twig')
             ->context(['contact' => $contact]);
-//        $this->mailer->send($email);
+        $this->mailer->send($email);
     }
 
     public function onUserLoginSendEmail(InteractiveLoginEvent $event): void
